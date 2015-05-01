@@ -1,5 +1,5 @@
 class website {
-  $greetname = "Gene"
+  $greetname = hiera('greetname')
   
   package { 'apache2':
     ensure  => 'latest',

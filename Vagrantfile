@@ -68,9 +68,19 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
+    sudo dpkg -i puppetlabs-release-precise.deb
+    sudo apt-get update
+    sudo apt-get install -y puppet hiera
+  SHELL
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "manifests"
     puppet.manifest_file = "site.pp"
-	puppet.module_path = "modules"
+    puppet.module_path = "modules"
+    puppet.hiera_config_path = "hiera.yaml"
+    if not (ENV['PUPPET_ENV']).nil? 
+      puppet.options = "--environment", ENV['PUPPET_ENV']
+    end
   end
 end
