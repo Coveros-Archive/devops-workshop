@@ -1,4 +1,6 @@
 class website {
+  $greetname = "Gene"
+  
   package { 'apache2':
     ensure  => 'latest',
   }
